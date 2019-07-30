@@ -120,7 +120,7 @@ class QueryDal:
 
     def setup_selenium(self):
         # Setting chromedriver path
-        CHROMEDRIVERPATH = os.path.join(os.getcwd(), "chromedriver")
+        CHROMEDRIVERPATH = os.path.join(os.getcwd(), "chromedriver.exe")
         # Setting Chrome Options
         self.options = Options()
         # Setting headless flag
