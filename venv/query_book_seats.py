@@ -158,11 +158,11 @@ if __name__ == "__main__":
             # CRNs to be added
             crns = input("Enter CRNs to be added (separate by comma if more than 1):\n").split(",")
         # Creating dalquery object
-        dalquery = QueryDal(course_number, netid=netid, netpassword=netpassword, headless=False,
+        dalquery = QueryDal(course_number, netid=netid, netpassword=netpassword, headless=True,
                     add_flag=add_flag, drop_flag=drop_flag, crns=crns, drop_courses_indices=drop_courses_indices, term=term)
     else:
         # Creating dalquery object
-        dalquery = QueryDal(course_number, netid, netpassword, False, term=term)
+        dalquery = QueryDal(course_number, netid, netpassword, True, term=term)
 
     print("SEATS:")
     while True:
