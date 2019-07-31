@@ -1,3 +1,8 @@
+#==========================================
+# Title: Query and Book Seats on Dalonline
+# Author: Rajesh Gupta
+# Date:   31 July 2019
+#==========================================
 # Selenium Imports
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -19,8 +24,10 @@ import os, time
 
 class QueryDal:
 
-    def __init__(self, course_number, netid="", netpassword="",
+    def __init__(self, os_type, course_number, netid="", netpassword="",
                     headless=True, add_flag=0, drop_flag=0, crns=[], drop_courses_indices=[], term="202010"):
+        # Setting OS type
+        self.os_type = os_type
         # Setting course parameters
         self.course_number = course_number
         self.URL = f"https://dalonline.dal.ca/PROD/fysktime.P_DisplaySchedule?s_term={term}&s_subj=CSCI&s_numb={course_number}&s_district=100"
@@ -119,8 +126,9 @@ class QueryDal:
         self.driver.find_element_by_xpath("//input[@value='Submit Changes']").click()
 
     def setup_selenium(self):
+        os_ = "windows" if self.os_type else "mac"
         # Setting chromedriver path
-        CHROMEDRIVERPATH = os.path.join(os.getcwd(), "chromedriver.exe")
+        CHROMEDRIVERPATH = os.path.join(os.getcwd(), os_, "chromedriver.exe")
         # Setting Chrome Options
         self.options = Options()
         # Setting headless flag
@@ -130,6 +138,8 @@ class QueryDal:
         self.driver = webdriver.Chrome(options=self.options, executable_path=CHROMEDRIVERPATH)
 
 if __name__ == "__main__":
+    # Windows or Non-Windows
+    os_type = int(input("Enter OS type: 1 for Windows and 0 for Non-Windows\n"))
     # Get from address
     username = input("Enter email:\n")
     # Get to addresses
@@ -158,11 +168,11 @@ if __name__ == "__main__":
             # CRNs to be added
             crns = input("Enter CRNs to be added (separate by comma if more than 1):\n").split(",")
         # Creating dalquery object
-        dalquery = QueryDal(course_number, netid=netid, netpassword=netpassword, headless=True,
+        dalquery = QueryDal(os_type, course_number, netid=netid, netpassword=netpassword, headless=True,
                     add_flag=add_flag, drop_flag=drop_flag, crns=crns, drop_courses_indices=drop_courses_indices, term=term)
     else:
         # Creating dalquery object
-        dalquery = QueryDal(course_number, netid, netpassword, True, term=term)
+        dalquery = QueryDal(os_type, course_number, netid, netpassword, True, term=term)
 
     print("SEATS:")
     while True:
